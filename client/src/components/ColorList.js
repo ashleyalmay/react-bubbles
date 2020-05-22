@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useHistory} from 'react-router-dom';
+import { axiosWithAuth } from "../Utils/axiosWithAuth";
+
+
 
 const initialColor = {
   color: "",
@@ -7,25 +10,52 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
+  // console.log(updateColors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-
+  
+  const history = useHistory();
+  
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
   };
-
+// this works if you refresh window.location.reload(); got it
   const saveEdit = e => {
     e.preventDefault();
+    axiosWithAuth()
+    .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
+    .then(res => {
+      
+    history.push(`/protected`)
+    window.location.reload();
+    })
+    .catch(err => {
+        console.log(err)
+        setTimeout(history.push(`/protected`), 10000)
+    })
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
   };
 
-  const deleteColor = color => {
+
+  const deleteColor = colorToDelete => {
+    console.log(colorToDelete)
+    
     // make a delete request to delete this color
-  };
+  axiosWithAuth()
+    .delete(`api/colors/${colorToDelete.id}`)
+    .then((res) => {
+      console.log(res);
+      
+      history.push('/protected');
+      window.location.reload();
+    })
+    .catch((err) => console.error({ err }));
+  setTimeout(history.push('/protected'), 10000);
+    };
+    // this works on refresh added this it works window.location.reload();
 
   return (
     <div className="colors-wrap">

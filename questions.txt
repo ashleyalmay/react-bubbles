@@ -1,0 +1,11 @@
+1. Explain what a token is used for.
+-A token is used to make security decisions and to store tamper-proof information about some system entity.
+
+2. What steps can you take in your web apps to keep your data secure?
+-make sure you use a parcer on your keys so it can't be hacked
+
+3. Describe how web servers work.
+- A web server processes incoming network requests over HTTP and several other related protocols. The primary function of a web server is to store, process and deliver web pages to clients.
+ 
+4. Which HTTP methods can be mapped to the CRUD acronym that we use when interfacing with APIs/Servers.
+-Put and Post
